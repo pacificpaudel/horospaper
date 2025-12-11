@@ -1,0 +1,41 @@
+name: Daily Horoscope Update
+
+on:
+  schedule:
+    - cron: "0 5 * * *"   # Runs daily at 05:00 UTC
+  workflow_dispatch:
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Generate daily assets
+        run: python pipeline/generate.py
+
+      - name: Commit and push changes
+        run: |
+          git config user.name "Horoscope Bot"
+          git config user.email "bot@example.com"
+          git add public/today.*
+          git commit -m "Daily horoscope update"
+          git push
+
+      - name: Deploy to Vercel
+        uses: amondnet/vercel-action@v25
+        with:
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
+          working-directory: .
+          prod: true
