@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>Scorpio Daily Horoscope</title>
+  <title>Daily Scorpio Image</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <style>
     body {
@@ -21,19 +21,15 @@
       border-radius: 20px;
       box-shadow: 0 20px 40px rgba(0,0,0,0.6);
       overflow: hidden;
-      transform: perspective(1000px) rotateX(5deg);
-      transition: transform 0.3s ease;
       max-width: 500px;
       width: 90%;
-    }
-    .card:hover {
-      transform: perspective(1000px) rotateX(0deg) scale(1.02);
+      text-align: center;
+      padding-bottom: 1rem;
     }
     .card-header {
       padding: 1rem;
-      text-align: center;
       background: #1f2538;
-      font-size: 1.2rem;
+      font-size: 1.3rem;
       font-weight: bold;
       color: #ffd166;
     }
@@ -41,35 +37,53 @@
       width: 100%;
       display: block;
     }
-    .card-footer {
-      padding: 1rem;
-      text-align: center;
+    .date {
       font-size: 1rem;
       color: #c9cdd4;
+      margin: 0.5rem 0;
     }
-    .date {
-      font-size: 0.9rem;
-      color: #9aa0a6;
+    button {
       margin-top: 0.5rem;
+      padding: 0.6rem 1.2rem;
+      border: none;
+      border-radius: 8px;
+      background: #ffd166;
+      color: #121826;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+    button:hover {
+      background: #ffb347;
     }
   </style>
 </head>
 <body>
   <div class="card">
-    <div class="card-header">Scorpio Horoscope</div>
+    <div class="card-header">Daily Scorpio Image</div>
+    <p class="date" id="date"></p>
     <img id="daily" src="/today.png" alt="Scorpio daily horoscope image" />
-    <div class="card-footer">
-      <p id="caption"></p>
-      <p class="date" id="date"></p>
-    </div>
+    <button onclick="updateImage()">Update</button>
   </div>
 
   <script>
-    fetch('/today.json').then(r => r.json()).then(meta => {
-      document.getElementById('daily').alt = meta.alt;
-      document.getElementById('caption').textContent = meta.caption;
-      document.getElementById('date').textContent = meta.date;
-    });
+    function loadMeta() {
+      fetch('/today.json')
+        .then(r => r.json())
+        .then(meta => {
+          document.getElementById('date').textContent = meta.date;
+          document.getElementById('daily').src = '/today.png?cacheBust=' + new Date().getTime();
+        })
+        .catch(err => console.error('Error loading metadata:', err));
+    }
+
+    function updateImage() {
+      // Simple client-side refresh: reload metadata and image
+      loadMeta();
+    }
+
+    // Initial load
+    loadMeta();
   </script>
 </body>
 </html>
