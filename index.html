@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Brishchik Rashi Daily Visual</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body { font-family: system-ui, sans-serif; margin: 2rem; background:#0b0f17; color:#e8ebf0; }
+    .wrap { max-width: 840px; margin: auto; }
+    img { width: 100%; height: auto; border-radius: 12px; box-shadow: 0 8px 24px rgba(0,0,0,0.35); }
+    .caption { margin-top: 1rem; font-size: 1.1rem; color:#c9cdd4; }
+    .date { font-size: 0.9rem; color:#9aa0a6; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>Brishchik Rashi — Today’s Visual</h1>
+    <p class="date" id="date"></p>
+    <img id="daily" src="/today.png" alt="" />
+    <p class="caption" id="caption"></p>
+    <p>Sources referenced daily: OnlineJyotish, AajTak Tarot, Prokerala, Amar Ujala.</p>
+  </div>
+  <script>
+    fetch('/today.json').then(r => r.json()).then(meta => {
+      document.getElementById('daily').alt = meta.alt;
+      document.getElementById('caption').textContent = meta.caption;
+      document.getElementById('date').textContent = meta.date;
+    });
+  </script>
+</body>
+</html>
