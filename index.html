@@ -34,10 +34,19 @@
       padding: 1rem;
       box-sizing: border-box;
     }
+    .clock-box {
+      display: flex;
+      flex-direction: column;
+      gap: 0.3rem;
+    }
     .clock {
       font-size: 1.2rem;
       font-weight: bold;
       color: #ffd166;
+    }
+    .updated {
+      font-size: 0.9rem;
+      color: #c9cdd4;
     }
     .update-btn {
       width: 50px;
@@ -54,30 +63,25 @@
     .update-btn:hover {
       background: #ffb347;
     }
-    .date {
-      position: absolute;
-      bottom: 1rem;
-      left: 50%;
-      transform: translateX(-50%);
-      font-size: 1rem;
-      color: #c9cdd4;
-    }
   </style>
 </head>
 <body>
   <img id="daily" src="/today.png" alt="Scorpio daily horoscope image" />
   <div class="overlay">
-    <div class="clock" id="clock"></div>
+    <div class="clock-box">
+      <div class="clock" id="clock"></div>
+      <div class="updated" id="updated"></div>
+    </div>
     <button class="update-btn" onclick="updateImage()">⟳</button>
   </div>
-  <div class="date" id="date"></div>
 
   <script>
     function loadMeta() {
       fetch('/today.json')
         .then(r => r.json())
         .then(meta => {
-          document.getElementById('date').textContent = meta.date;
+          // show last updated timestamp from JSON
+          document.getElementById('updated').textContent = "Last updated: " + meta.date;
           // force reload image bypassing cache
           document.getElementById('daily').src = '/today.png?cb=' + new Date().getTime();
         })
