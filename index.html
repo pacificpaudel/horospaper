@@ -2,24 +2,68 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>Brishchik Rashi Daily Visual</title>
+  <title>Scorpio Daily Horoscope</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <style>
-    body { font-family: system-ui, sans-serif; margin: 2rem; background:#0b0f17; color:#e8ebf0; }
-    .wrap { max-width: 840px; margin: auto; }
-    img { width: 100%; height: auto; border-radius: 12px; box-shadow: 0 8px 24px rgba(0,0,0,0.35); }
-    .caption { margin-top: 1rem; font-size: 1.1rem; color:#c9cdd4; }
-    .date { font-size: 0.9rem; color:#9aa0a6; }
+    body {
+      font-family: system-ui, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(135deg, #0b0f17, #1a1f2e);
+      color: #e8ebf0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+    .card {
+      background: #121826;
+      border-radius: 20px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+      overflow: hidden;
+      transform: perspective(1000px) rotateX(5deg);
+      transition: transform 0.3s ease;
+      max-width: 500px;
+      width: 90%;
+    }
+    .card:hover {
+      transform: perspective(1000px) rotateX(0deg) scale(1.02);
+    }
+    .card-header {
+      padding: 1rem;
+      text-align: center;
+      background: #1f2538;
+      font-size: 1.2rem;
+      font-weight: bold;
+      color: #ffd166;
+    }
+    .card img {
+      width: 100%;
+      display: block;
+    }
+    .card-footer {
+      padding: 1rem;
+      text-align: center;
+      font-size: 1rem;
+      color: #c9cdd4;
+    }
+    .date {
+      font-size: 0.9rem;
+      color: #9aa0a6;
+      margin-top: 0.5rem;
+    }
   </style>
 </head>
 <body>
-  <div class="wrap">
-    <h1>Brishchik Rashi — Today’s Visual</h1>
-    <p class="date" id="date"></p>
-    <img id="daily" src="/today.png" alt="" />
-    <p class="caption" id="caption"></p>
-    <p>Sources referenced daily: OnlineJyotish, AajTak Tarot, Prokerala, Amar Ujala.</p>
+  <div class="card">
+    <div class="card-header">Scorpio Horoscope</div>
+    <img id="daily" src="/today.png" alt="Scorpio daily horoscope image" />
+    <div class="card-footer">
+      <p id="caption"></p>
+      <p class="date" id="date"></p>
+    </div>
   </div>
+
   <script>
     fetch('/today.json').then(r => r.json()).then(meta => {
       document.getElementById('daily').alt = meta.alt;
